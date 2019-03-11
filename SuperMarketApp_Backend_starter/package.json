@@ -1,0 +1,26 @@
+{
+  "name": "SuperMarketApp_Backend_starter",
+  "version": "1.0.0",
+  "description": "Backend Code For Mobile Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -L app.js",
+    "test": "jest"
+  },
+  "author": "Jacob Mittelstaedt, Elie Elisee Paul, Ramon Petgrave, Sebastian Henriquez, Thierno Diallo",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^21.2.1"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "express-handlebars": "^3.0.0",
+    "nodemon": "^1.12.1",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.13.3"
+  }
+}
