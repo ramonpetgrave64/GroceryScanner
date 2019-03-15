@@ -1,6 +1,9 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const models = require('./models');
+const passport = require('./middlewares/authentication');
+const expressSession = require('express-session');
+const flash = require('connect-flash');
 
 const PORT = process.env.PORT || 8000;
 
@@ -8,6 +11,10 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSesion({secret: 'Grocery_is great', resave: false, saveUninitialized: true}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Uncomment the following if you want to serve up static assets.
