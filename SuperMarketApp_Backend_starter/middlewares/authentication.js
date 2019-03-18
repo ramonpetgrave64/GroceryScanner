@@ -14,7 +14,7 @@ function passwordMatch(passwordSubmitted, storedPassword){
 }
 
 //Local Strategy
-passport.use(new LocalStrategy({usernameField: username,}, (username, password, done) => {
+passport.use(new LocalStrategy({usernameField: 'username',}, (username, password, done) => {
 	User.find0ne({
 		where: { username },
 	}).then( user => {
@@ -28,8 +28,8 @@ passport.use(new LocalStrategy({usernameField: username,}, (username, password, 
 
 //JWT Strategy
 var opts = {}
-opt.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearertoken();
-opt.secretOrKey = keys.jwtSecret;
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = keys.jwtSecret;
 
 passport.use(new JWTStrategy(opts, function(jwt_payload, done){
 	User.findOne({id: jwt_payload.sub}, function(err, user){
@@ -66,3 +66,5 @@ passport.deserializeUser((id, done) => {
 		return done(null, user);
 	});
 })
+
+module.exports = passport;

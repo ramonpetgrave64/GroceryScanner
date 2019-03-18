@@ -4,7 +4,7 @@ const models = require('./models');
 const passport = require('./middlewares/authentication');
 const expressSession = require('express-session');
 const flash = require('connect-flash');
-const keys = require('../config/keys');
+const keys = require('./config/keys');
 
 const PORT = process.env.PORT || 8000;
 
@@ -12,8 +12,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressSesion({secret: keys.expressSessionKey, resave: false, saveUninitialized: true}));
 app.use(flash());
+app.use(expressSession({secret: keys.expressSessionKey, resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,3 +51,4 @@ models.sequelize.sync({force: false})
       console.log(`Server is up and running on port: ${PORT}`)
     });
   });
+
