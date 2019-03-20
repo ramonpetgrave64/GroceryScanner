@@ -18,28 +18,22 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    Productid : {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
-		Barcodeid : {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
-	});
 
-  Products.associate = (models) => {
-    models.Products.hasMany(models.Orders);
+    	Scannable : {
+    		type: DataTypes.BOOLEAN,
+    		allowNull:false,
+    		validate: {
+    		  notEmpty: true,
+    		},
+    	},
+    		});
+
+Products.associate = (models) => {
+    models.Products.hasOne(models.Barcode);
+    models.Products.hasMany(models.Shopping_cart)
+    
   }
-
+  
 
 	return Products;
 }

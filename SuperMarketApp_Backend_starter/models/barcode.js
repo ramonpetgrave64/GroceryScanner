@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = (sequelize, DataTypes) => {
-	const Credit_card = sequelize.define('Credit_card', {
+	const Barcode = sequelize.define('Barcode', {
 
-		number : {
+Barcodeid : {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -13,14 +13,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-	});
 
-Credit_card.associate = (models) => {
-    models.Credit_card.belongsTo(models.Users);
-    models.Credit_card.hasMany(models.Orders);
+  });
+
+Barcode.associate = (models) => {
+    models.Barcode.belongsTo(models.Products, {foreignKey: {allowNull: false}});
     
   }
-  
 
-	return Credit_card;
+  return Barcode;
 }
