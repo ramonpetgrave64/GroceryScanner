@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
+  "expoServerPort": 19000,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://cc-t5j.anonymous.groceryexpodemo.exp.direct",
+  "packagerNgrokUrl": "https://packager.cc-t5j.anonymous.groceryexpodemo.exp.direct",
+  "ngrokPid": 19266,
   "webpackServerPort": null
 }
