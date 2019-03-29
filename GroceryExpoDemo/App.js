@@ -11,7 +11,7 @@ export default class App extends Component {
     {key: '4', name: 'apple', icon: '#', price: 22.40, quantity: 3},
     {key: '5', name: 'sushi', icon: '#', price: 9240, quantity: 4},
     {key: '6', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-    {key: '7', name: 'sushi', icon: '#', price: 9240, quantity: 4},
+    {key: '7', name: 'sushi', icon: '#', price: 9240, quantity: 4}, 
     {key: '8', name: 'apple', icon: '#', price: 22.40, quantity: 3},
     {key: '9', name: 'sushi', icon: '#', price: 9240, quantity: 4},
     {key: '10', name: 'apple', icon: '#', price: 22.40, quantity: 3},

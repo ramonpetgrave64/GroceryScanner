@@ -16,7 +16,7 @@ const ShoppingCart = (props) => {
           borderWidth: 0.5,
           borderColor: '#d6d7da',
           justifyContent: 'space-between',
-        },
+        }, 
         item_name: {
             flexBasis: '50%',
         },
