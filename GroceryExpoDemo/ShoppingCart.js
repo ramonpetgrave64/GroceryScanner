@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 const ShoppingCart = (props) => {
     const styles = StyleSheet.create({
@@ -16,7 +16,7 @@ const ShoppingCart = (props) => {
           borderWidth: 0.5,
           borderColor: '#d6d7da',
           justifyContent: 'space-between',
-        },
+        }, 
         item_name: {
             flexBasis: '50%',
         },
@@ -35,10 +35,21 @@ const ShoppingCart = (props) => {
         }
     })
 
+    cartItemTapHandler = (targetItem) => {
+        const targetIndex = props.cart_data.findIndex(item => item.key === targetItem.key);
+        const new_cart_data = [...props.cart_data]
+        new_cart_data.splice(targetIndex, 1);
+        // add delay the update, so that the TouchableHighlight has time to do its animation
+        setTimeout(() => {
+            props.onUpdate(new_cart_data);
+        }, 100);
+        // props.onUpdate(new_cart_data);
+    }
+
     return (
         <View style={styles.container}>
             {/* Cart Heading */}
-            <View style={styles.item}>
+            <View style={styles.item}> 
                 <Text style={styles.item_name}>Item Name</Text>
                 <Text style={styles.item_quantity}>Quantity</Text>
                 <Text style={styles.item_total}>Total Price</Text>
@@ -46,14 +57,15 @@ const ShoppingCart = (props) => {
             {/* Cart Contents */}
             <FlatList
                 data={props.cart_data}
-                renderItem={
-                ({item}) =>
-                    <View style={styles.item}>
-                    {/* <Image source={{uri: '#'}}/> */}
-                    <Text style={styles.item_name}>{item.name}</Text>
-                    <Text style={styles.item_quantity}>{item.quantity}</Text>
-                    <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
-                    </View>
+                renderItem={ ({item}) =>
+                    <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
+                        <View style={styles.item}>
+                        {/* <Image source={{uri: '#'}}/> */}
+                        <Text style={styles.item_name}>{item.name}</Text>
+                        <Text style={styles.item_quantity}>{item.quantity}</Text>
+                        <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
+                        </View>
+                    </TouchableHighlight>
                 }
             />
             {/* Cart Total */}
