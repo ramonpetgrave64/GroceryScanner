@@ -33,8 +33,8 @@ opts.secretOrKey = keys.jwtSecret;
 
 passport.use(new JWTStrategy(opts, function(jwt_payload, done){
 	User.findOne({id: jwt_payload.sub}, function(err, user){
-		if(!user) return done(null, false, {message: 'Incorrect username or password.'});
-		return done(null, user, { message: 'Successfully Loogged In!'});
+		if(!user) done(null, false, {message: 'User not found!'});
+		done(null, user, { message: 'User found!'});
 	});
 }));
 
