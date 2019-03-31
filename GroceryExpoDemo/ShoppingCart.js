@@ -26,9 +26,9 @@ const ShoppingCart = (props) => {
             display: 'flex',
             flexDirection:'row',
             justifyContent: 'space-between',
-            borderRadius: 4,
-            borderWidth: 0.5,
-            borderColor: '#d6d7da',
+            // borderRadius: 4,
+            // borderWidth: 0.5,
+            // borderColor: '#d6d7da',
         },
         item_total: {
             textAlign: 'right',
