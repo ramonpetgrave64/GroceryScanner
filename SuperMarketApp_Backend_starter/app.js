@@ -1,5 +1,8 @@
+
+
 const bodyParser = require('body-parser');
-const express = require('express');
+const const stripe = require("stripe")(keySecret);
+express = require('express');
 const models = require('./models');
 const passport = require('./middlewares/authentication');
 const expressSession = require('express-session');
@@ -8,6 +11,8 @@ const keys = require('./config/keys');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
+const stripe = require("stripe")(keySecret);
+
 
 const PORT = process.env.PORT || 8000;
 
@@ -45,9 +50,9 @@ app.use(passport.session());
 
 // Uncomment the following if you want to serve up static assets.
 // (You must create the public folder)
-/*
+
 app.use(express.static('./public'));
-*/
+
 
 // Uncomment the following if you want to use handlebars
 // on the backend. (You must create the views folder)
@@ -76,5 +81,5 @@ models.sequelize.sync({force: false})
       console.log(`Server is up and running on port: ${PORT}`);
     });
   });
-  
+
 module.exports = {app};
