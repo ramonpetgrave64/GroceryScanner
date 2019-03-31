@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
 	Users.beforeCreate((user) =>
-    	new sequelize.Promise((resolve) => {
+    	new Promise((resolve) => {
       		bcrypt.hash(user.password_hash, null, null, (err, hashedPassword) => {
         		resolve(hashedPassword);
       		});

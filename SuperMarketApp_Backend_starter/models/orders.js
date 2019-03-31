@@ -4,13 +4,30 @@ const bcrypt = require('bcrypt-nodejs');
 module.exports = (sequelize, DataTypes) => {
 	const Orders = sequelize.define('Orders', {
 
-		order_id : {
-      type: DataTypes.STRING,
+		list_items: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
+
+    list_price: {
+      type: DataTypes.ARRAY(DataTypes.FLOAT),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+
+    tax: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+
 		total_price : {
       type: DataTypes.FLOAT,
       allowNull: false,
@@ -18,28 +35,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    username : {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-        isAlphanumeric: true,
-      },
-    },
-		number : {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
+    
+		
 	});
 
   Orders.associate = (models) => {
-    models.Orders.hasMany(models.Credit_card);
-    models.Orders.hasMany(models.Stores);
+    models.Orders.belongsTo(models.Credit_card);
+
     
   }
 
