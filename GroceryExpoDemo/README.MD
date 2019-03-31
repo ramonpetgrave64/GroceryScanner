@@ -1,4 +1,4 @@
-The Shopping Cart is now a React element and can now be used/rendere/updatedc like so:
+The Shopping Cart is a React element and can now be used/rendere/updatedc like so:
 ```
 state = {
     cart_data:
@@ -19,6 +19,9 @@ render() {
     );
 }
 ```
+
+EDIT 3.31.19:
+The cart items each have their own buttons to increment and decerement quantity.
 
 Cart items can now be tapped. For now, upon tapping, the ShoppingCart element will hilight the item and remove it from a new_cart_data array, which it will then pass as an argument to its onUpdate callback. 
 
