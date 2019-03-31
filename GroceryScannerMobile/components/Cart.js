@@ -23,7 +23,13 @@ const ShoppingCart = (props) => {
         },
         item_quantity: {
             textAlign: 'right',
-            flexBasis: '20%',
+            flexBasis: '30%',
+            display: 'flex',
+            flexDirection:'row',
+            justifyContent: 'space-between',
+            // borderRadius: 4,
+            // borderWidth: 0.5,
+            // borderColor: '#d6d7da',
         },
         dismiss_button: {
           textAlign: 'left',
@@ -33,7 +39,7 @@ const ShoppingCart = (props) => {
         },
         item_total: {
             textAlign: 'right',
-            flexBasis: '30%',
+            flexBasis: '20%',
         },
         cart_total: {
             textAlign: 'right',
@@ -53,6 +59,16 @@ const ShoppingCart = (props) => {
         // props.onUpdate(new_cart_data);
     }
 
+    cartItemIncrementHandler = (targetItem, increment) => {
+        const targetIndex = props.cart_data.findIndex(item => item.key === targetItem.key);
+        const new_cart_data = [...props.cart_data];
+        new_cart_data[targetIndex].quantity += increment;
+        if(new_cart_data[targetIndex].quantity < 0) {
+            new_cart_data[targetIndex].quantity = 0;
+        }
+        props.onUpdate(new_cart_data);
+    }
+
     return (
         <View style={styles.container}>
             {/* Cart Heading */}
@@ -64,18 +80,22 @@ const ShoppingCart = (props) => {
             {/* Cart Contents */}
             <FlatList
                 data={props.cart_data}
-                renderItem={
-                ({item}) =>
-                  <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
-                    <View style={styles.item}>
-                    {/* <Image source={{uri: '#'}}/> */}
-                    <Text style={styles.item_name}>{item.name}</Text>
-                    <Text style={styles.item_quantity}>{item.quantity}</Text>
-                    <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
-                    </View>
-                  </TouchableHighlight>
+                renderItem={ ({item}) =>
+                    // <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
+                        <View style={styles.item}>
+                            {/* <Image source={{uri: '#'}}/> */}
+                            <Text style={styles.item_name}>{item.name}</Text>
+                            {/* Item Quatity */}
+                            <View style={styles.item_quantity}>
+                                <Button title='-' color={'#ff4d4d'}  onPress={() => cartItemIncrementHandler(item, -1)} />
+                                <Text>{item.quantity}</Text>
+                                <Button title='+' color={'#3366ff'} onPress={() => cartItemIncrementHandler(item, +1)} />
+                            </View>
+                            <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
+                        </View>
+                    // </TouchableHighlight>
                 }
-            />
+
             {/* Cart Total */}
             <View style={styles.item}>
                 <TouchableOpacity
