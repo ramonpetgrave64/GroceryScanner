@@ -15,7 +15,7 @@ function passwordMatch(passwordSubmitted, storedPassword){
 
 //Local Strategy
 passport.use(new LocalStrategy({usernameField: 'username',}, (username, password, done) => {
-	User.find0ne({
+	User.findOne({
 		where: { username },
 	}).then( user => {
 		if(!user) return done(null, false, { message: 'Incorrect username or password.'});

@@ -1,8 +1,7 @@
 
 
 const bodyParser = require('body-parser');
-const const stripe = require("stripe")(keySecret);
-express = require('express');
+const express = require('express');
 const models = require('./models');
 const passport = require('./middlewares/authentication');
 const expressSession = require('express-session');
@@ -11,7 +10,7 @@ const keys = require('./config/keys');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
-const stripe = require("stripe")(keySecret);
+const stripe = require("stripe")(keys.stripeKeySecret);
 
 
 const PORT = process.env.PORT || 8000;

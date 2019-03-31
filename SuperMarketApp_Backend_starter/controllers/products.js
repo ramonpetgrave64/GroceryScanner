@@ -1,29 +1,31 @@
 const express = require('express');
 const models = require('../models');
 const passport = require('../middlewares/authentication');
-const redirect = require('../middlewares/redirect');
-const getSlug = require('speakingurl');
 
 const router = express.Router();
 
-router.get('/', passport.redirectIfNotLoggedIn('/login'),  
+router.get('/', passport.authenticate('jwt', { session: false }),  
   (req, res) => {
     models.Products.findAll({
       where: {
        Scannable : false,
       },
-      include: [{
-        model: models.Users,
-        where: {
-          username: req.user.username,
-        },
-      }],
       order: [['updatedAt', 'DESC']],
     }).then((allProducts) => {
-      res.status(200).send("products details in json");
+      res.status(200).send(allProducts);
     })
 });
 
+router.get('/:barcode', passport.authenticate('jwt', { session: false}), (req, res) => {
+  models.Barcode.findOne({
+    where: {
+      Barcodeid: req.params.barcode
+    }, 
+    include: [{
+      model: models.Products
+    }]
+  });
+});
 /*router.get('/new', 
   passport.redirectIfNotLoggedIn('/login'),  
   (req, res) => {

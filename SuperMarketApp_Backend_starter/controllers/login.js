@@ -10,21 +10,15 @@ const router = express.Router();
 });*/
 
 router.post('/', (req, res) => {
-   passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-      failureFlash: true,
-      successFlash: true,
-      session: false
-    }, (err, user, info) =>{
-    	if(err || !user) return res.status(400).json({message: 'Wrong username or password', user: user});
-    	req.login(user, {session: false}, (err) => {
-    		if(err)res.send(err); 
-	    	let payload = {username: user.username};
-	    	const token = jwt.sign(payload, keys.jwtSecret);
-	    	res.status(200).send({auth: true, token: token});
-	    });
+   passport.authenticate('local', {session: false}, (err, user) =>{
+	if(err) return res.status(400).json({message: 'Wrong username or password', user: user});
+	req.login(user, {session: false}, (err) => {
+		if(err)res.send(err); 
+    	let payload = {id: user.username};
+    	const token = jwt.sign(payload, keys.jwtSecret);
+    	res.status(200).send({auth: true, token: token});
     });
+    })(req, res);
 });
 
 /*router.post('/jwt', passport.authenticate('jwt', {session: false}));

@@ -1,11 +1,10 @@
 const express = require('express');
 const models = require('../models');
 const passport = require('../middlewares/authentication');
-const redirect = require('../middlewares/redirect');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   let amount = req.body.total;
 
   stripe.customers.create({
@@ -19,11 +18,11 @@ router.post('/', (req, res) => {
       currency: "usd",
       customer: customer.id
     }))
-  .then(charge => res.send(charge))
+  .then(charge => res.status(200).send(charge))
   .catch(err => {
     console.log("Error:", err);
     res.status(500).send({error: "Purchase Failed"});
   });
 });
 
-router.listen(8000);
+module.exports = router;
