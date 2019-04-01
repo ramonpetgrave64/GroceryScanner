@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, AppRegistry, FlatList, StyleSheet,
-  Text, View, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 
 const ShoppingCart = (props) => {
     const styles = StyleSheet.create({
@@ -23,6 +22,16 @@ const ShoppingCart = (props) => {
         },
         item_quantity: {
             textAlign: 'right',
+            flexBasis: '30%',
+            display: 'flex',
+            flexDirection:'row',
+            justifyContent: 'space-between',
+            // borderRadius: 4,
+            // borderWidth: 0.5,
+            // borderColor: '#d6d7da',
+        },
+        item_total: {
+            textAlign: 'right',
             flexBasis: '20%',
         },
         dismiss_button: {
@@ -31,15 +40,14 @@ const ShoppingCart = (props) => {
         customBtnText: {
           fontSize: 14
         },
-        item_total: {
-            textAlign: 'right',
-            flexBasis: '30%',
-        },
         cart_total: {
             textAlign: 'right',
             flexBasis: '30%',
             flexGrow: 1,
-        }
+        },
+        // incrementButton: {
+
+        // }
     })
 
     cartItemTapHandler = (targetItem) => {
@@ -53,39 +61,52 @@ const ShoppingCart = (props) => {
         // props.onUpdate(new_cart_data);
     }
 
+    cartItemIncrementHandler = (targetItem, increment) => {
+        const targetIndex = props.cart_data.findIndex(item => item.key === targetItem.key);
+        const new_cart_data = [...props.cart_data];
+        new_cart_data[targetIndex].quantity += increment;
+        if(new_cart_data[targetIndex].quantity < 0) {
+            new_cart_data[targetIndex].quantity = 0;
+        }
+        props.onUpdate(new_cart_data);
+    }
+
     return (
         <View style={styles.container}>
             {/* Cart Heading */}
             <View style={styles.item}>
-                <Text style={styles.item_name}>Item Name</Text>
-                <Text style={styles.item_quantity}>Quantity</Text>
-                <Text style={styles.item_total}>Total Price</Text>
+                <Text>Item Name</Text>
+                <Text>Quantity</Text>
+                <Text>Total Price</Text>
             </View>
             {/* Cart Contents */}
             <FlatList
                 data={props.cart_data}
-                renderItem={
-                ({item}) =>
-                  <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
-                    <View style={styles.item}>
-                    {/* <Image source={{uri: '#'}}/> */}
-                    <Text style={styles.item_name}>{item.name}</Text>
-                    <Text style={styles.item_quantity}>{item.quantity}</Text>
-                    <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
-                    </View>
-                  </TouchableHighlight>
+                renderItem={ ({item}) =>
+                    // <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
+                        <View style={styles.item}>
+                            {/* <Image source={{uri: '#'}}/> */}
+                            <Text style={styles.item_name}>{item.name}</Text>
+                            {/* Item Quatity */}
+                            <View style={styles.item_quantity}>
+                                <Button title='-' color={'#ff4d4d'}  onPress={() => cartItemIncrementHandler(item, -1)} />
+                                <Text>{item.quantity}</Text>
+                                <Button title='+' color={'#3366ff'} onPress={() => cartItemIncrementHandler(item, +1)} />
+                            </View>
+                            <Text style={styles.item_total}>{(item.price * item.quantity).toFixed(2)}</Text>
+                        </View>
+                    // </TouchableHighlight>
                 }
             />
-            {/* Cart Total */}
             <View style={styles.item}>
-                <TouchableOpacity
-                  style={styles.dismiss_button}
-                  onPress={(props.onRequestClose)}
-                >
-                  <Text style={styles.customBtnText}>Dismiss</Text>
-                </TouchableOpacity>
-                <Text style={styles.cart_total}>Cart Total:</Text>
-                <Text style={styles.item_total}>
+              <TouchableOpacity
+                    style={styles.dismiss_button}
+                    onPress={(props.onRequestClose)}
+                  >
+                    <Text style={styles.customBtnText}>Dismiss</Text>
+              </TouchableOpacity>
+              <Text style={styles.cart_total}>Cart Total:</Text>
+              <Text style={styles.item_total}>
                     {
                         props.cart_data.reduce( (total, item) => {
                             return total + item.price * item.quantity;
@@ -96,5 +117,12 @@ const ShoppingCart = (props) => {
         </View>
     );
 }
+// <Text style={styles.item_total}>
+//     {
+//         props.cart_data.reduce( (total, item) => {
+//             return total + item.price * item.quantity;
+//         }, 0 ).toFixed(2)
+//     }
+// </Text>
 
 export default ShoppingCart;
