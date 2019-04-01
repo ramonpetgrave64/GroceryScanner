@@ -1,44 +1,36 @@
-
 const bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = (sequelize, DataTypes) => {
-	const Stores = sequelize.define('Stores', {
+	const Shopping_cart = sequelize.define('Shopping_cart', {
 
-		storeName: {
+		productName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-		location : {
-      type: DataTypes.TEXT,
+		price_per_unit : {
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    storeid : {
-      type: DataTypes.STRING,
+    number_of_products : {
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
       validate: {
         notEmpty: true,
-        isAlphanumeric: true,
-      },
     },
-		storePhone : {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
+  },
+  
+
 	});
 
 
 
-	return Stores;
+	return Shopping_cart;
 }
