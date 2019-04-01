@@ -7,9 +7,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Button, SafeAreaView, View, Image, Modal, Text, TouchableHighlight, Alert} from 'react-native';
 import {NativeModules} from 'react-native';
-import Camera from './components/Camera.js'
-import ShoppingCart from './components/Cart.js'
-import Checkout from './Checkout.js'
+import Camera from './components/Camera.js';
+import Checkout from './Checkout.js';
+import ShoppingCart from './components/Cart.js';
 // import Home from './frontPage.js'
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 

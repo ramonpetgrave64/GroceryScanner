@@ -9,9 +9,9 @@ import {
   View,
   Text
 } from 'react-native';
-import Scanner from './Scanner.js'
-import Checkout from './Checkout.js'
-import SignUp from './CreateAccount.js'
+import Scanner from './Scanner.js';
+import Checkout from './Checkout.js';
+import SignUp from './CreateAccount.js';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 class App extends Component<Props> {

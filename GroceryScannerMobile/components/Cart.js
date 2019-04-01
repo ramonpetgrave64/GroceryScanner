@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, AppRegistry, FlatList, StyleSheet,
-  Text, View, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 
 const ShoppingCart = (props) => {
     const styles = StyleSheet.create({
@@ -31,21 +30,24 @@ const ShoppingCart = (props) => {
             // borderWidth: 0.5,
             // borderColor: '#d6d7da',
         },
+        item_total: {
+            textAlign: 'right',
+            flexBasis: '20%',
+        },
         dismiss_button: {
           textAlign: 'left',
         },
         customBtnText: {
           fontSize: 14
         },
-        item_total: {
-            textAlign: 'right',
-            flexBasis: '20%',
-        },
         cart_total: {
             textAlign: 'right',
             flexBasis: '30%',
             flexGrow: 1,
-        }
+        },
+        // incrementButton: {
+
+        // }
     })
 
     cartItemTapHandler = (targetItem) => {
@@ -95,26 +97,25 @@ const ShoppingCart = (props) => {
                         </View>
                     // </TouchableHighlight>
                 }
-
-            {/* Cart Total */}
+            />
             <View style={styles.item}>
-                <TouchableOpacity
-                  style={styles.dismiss_button}
-                  onPress={(props.onRequestClose)}
-                >
-                  <Text style={styles.customBtnText}>Dismiss</Text>
-                </TouchableOpacity>
-                <Text style={styles.cart_total}>Cart Total:</Text>
-                <Text style={styles.item_total}>
-                    {
-                        props.cart_data.reduce( (total, item) => {
-                            return total + item.price * item.quantity;
-                        }, 0 ).toFixed(2)
-                    }
-                </Text>
+              <TouchableOpacity
+                    style={styles.dismiss_button}
+                    onPress={(props.onRequestClose)}
+                  >
+                    <Text style={styles.customBtnText}>Dismiss</Text>
+              </TouchableOpacity>
+              <Text style={styles.cart_total}>Cart Total:</Text>
             </View>
         </View>
     );
 }
+// <Text style={styles.item_total}>
+//     {
+//         props.cart_data.reduce( (total, item) => {
+//             return total + item.price * item.quantity;
+//         }, 0 ).toFixed(2)
+//     }
+// </Text>
 
 export default ShoppingCart;
