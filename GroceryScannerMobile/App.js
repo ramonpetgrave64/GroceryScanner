@@ -12,6 +12,7 @@ import {
 import Scanner from './Scanner.js';
 import Checkout from './Checkout.js';
 import SignUp from './CreateAccount.js';
+import Receipt from './Receipt.js';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 class App extends Component<Props> {
@@ -81,7 +82,8 @@ const AppNavigator = createStackNavigator(
     Home: App,
     Scanner: Scanner,
     Checkout: Checkout,
-    SignUp: SignUp
+    SignUp: SignUp,
+    Receipt: Receipt
   }
 );
 

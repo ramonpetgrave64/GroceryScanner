@@ -75,9 +75,9 @@ const ShoppingCart = (props) => {
         <View style={styles.container}>
             {/* Cart Heading */}
             <View style={styles.item}>
-                <Text style={styles.item_name}>Item Name</Text>
-                <Text style={styles.item_quantity}>Quantity</Text>
-                <Text style={styles.item_total}>Total Price</Text>
+                <Text>Item Name</Text>
+                <Text>Quantity</Text>
+                <Text>Total Price</Text>
             </View>
             {/* Cart Contents */}
             <FlatList
@@ -106,6 +106,13 @@ const ShoppingCart = (props) => {
                     <Text style={styles.customBtnText}>Dismiss</Text>
               </TouchableOpacity>
               <Text style={styles.cart_total}>Cart Total:</Text>
+              <Text style={styles.item_total}>
+                    {
+                        props.cart_data.reduce( (total, item) => {
+                            return total + item.price * item.quantity;
+                        }, 0 ).toFixed(2)
+                    }
+                </Text>
             </View>
         </View>
     );
