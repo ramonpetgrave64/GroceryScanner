@@ -7,12 +7,12 @@ stripe.setOptions({
   publishableKey: 'pk_test_RKmqFFP3lYqxiDYZiW4Mb3wd00KFTiJQGl',
 });
 
-export default class Checkout extends Component {
+export default class Checkout extends Component<Props> {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.cartData = this.props.navigation.getParam('cartData', -1);
-    this.totalAmount = cartData.reduce( (total, item) => {
+    this.totalAmount = this.cartData.reduce( (total, item) => {
         return total + item.price * item.quantity;
     }, 0 ).toFixed(2);
     this.user = this.props.navigation.getParam('user', {});
@@ -70,7 +70,7 @@ export default class Checkout extends Component {
         <View style={styles.list}>
           <Text style={styles.chooseCardField}>Choose a card</Text>
           <FlatList style={styles.list}
-              data={user.cards}
+              data={this.user.cards}
               renderItem={
               ({item}) =>
                 <TouchableHighlight onPress={() =>  this.chooseCardHandler(item)} underlayColor='lightgrey'>
