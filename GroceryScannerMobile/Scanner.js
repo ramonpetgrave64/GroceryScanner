@@ -50,27 +50,22 @@ export default class Scanner extends Component<Props> {
     };
   }
   static navigationOptions = ({ navigation }) => {
-    const user = navigation.getParam('user',"")
     return {
       headerTitle: "Scanner",
       headerLeft: (
         <Button
-          onPress={() => navigation.navigate('Home', {
-            cartData: navigation.state.params.cartData,
-            user: user,
-          })}
+          onPress={() => navigation.popToTop()}
           title="Log Out"
-          disabled={ navigation.state.params.preventCheckout }
         />
       ),
       headerRight: (
         <Button
           onPress={() => navigation.navigate('Checkout', {
-            cartData: navigation.state.params.cartData,
-            user: user,
+            cartData: navigation.getParam('cartData'),
+            user: navigation.getParam('user'),
           })}
           title="Checkout"
-          disabled={ navigation.state.params.preventCheckout }
+          disabled={ navigation.getParam('preventCheckout') }
         />
       )
     };
@@ -166,7 +161,7 @@ export default class Scanner extends Component<Props> {
     );
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.navigation.setParams({
      cartData: this.state.cart_data,
      preventCheckout: this.state.preventCheckout

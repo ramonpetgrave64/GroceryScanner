@@ -7,26 +7,22 @@ stripe.setOptions({
   publishableKey: 'pk_test_RKmqFFP3lYqxiDYZiW4Mb3wd00KFTiJQGl',
 });
 
-export default class Checkout extends Component {
+export default class Checkout extends Component<Props> {
 
-  var cartData = {};
-  var totalAmount = -1;
-  var user = {};
-
-  constructor() {
-    super();
-    cartData = this.props.navigation.getParam('cartData', -1);
-    totalAmount = cartData.reduce( (total, item) => {
+  constructor(props) {
+    super(props);
+    this.cartData = this.props.navigation.getParam('cartData', -1);
+    this.totalAmount = this.cartData.reduce( (total, item) => {
         return total + item.price * item.quantity;
     }, 0 ).toFixed(2);
-    user = this.props.navigation.getParam('user', {});
+    this.user = this.props.navigation.getParam('user', {});
     this.state = {
       card: {},
       isPaymentPending: false,
       cannotConfirmPurchase: true
     };
   }
-  
+
   createCardToken = () => {
     this.setState({ isPaymentPending: true });
     return stripe
@@ -51,8 +47,8 @@ export default class Checkout extends Component {
   };
 
   confirmPurchase = () => {
-    if (totalAmount == -1) { return; }
-    return doPayment(totalAmount, this.state.card)
+    if (this.totalAmount == -1) { return; }
+    return doPayment(this.totalAmount, this.state.card)
       .then(() => {
         console.warn('Payment succeeded');
       })
@@ -60,7 +56,7 @@ export default class Checkout extends Component {
         console.warn('Payment failed', { error });
       })
       .finally(() => {
-        this.props.navigation.navigate('Receipt', cartData);
+        this.props.navigation.navigate('Receipt', this.cartData);
       });
   }
 
@@ -69,12 +65,12 @@ export default class Checkout extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Total</Text>
-          <Text style={styles.price}>${totalAmount}</Text>
+          <Text style={styles.price}>${this.totalAmount}</Text>
         </View>
         <View style={styles.list}>
           <Text style={styles.chooseCardField}>Choose a card</Text>
           <FlatList style={styles.list}
-              data={user.cards}
+              data={this.user.cards}
               renderItem={
               ({item}) =>
                 <TouchableHighlight onPress={() =>  this.chooseCardHandler(item)} underlayColor='lightgrey'>
@@ -95,7 +91,7 @@ export default class Checkout extends Component {
         <View style={styles.footer}>
           <Button
             title="Confirm Purchase"
-            onPress={this.}
+            onPress={this.confirmPurchase}
             disabled={this.state.cannotConfirmPurchase}
           />
         </View>
