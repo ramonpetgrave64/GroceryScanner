@@ -10,6 +10,7 @@ import {
   Text
 } from 'react-native';
 import Scanner from './Scanner.js';
+import ScannerNoCamera from './ScannerNoCamera.js';
 import Checkout from './Checkout.js';
 import SignUp from './CreateAccount.js';
 import Receipt from './Receipt.js';
@@ -85,19 +86,11 @@ class App extends Component<Props> {
   }
 }
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: App,
-    Scanner: Scanner,
-    Checkout: Checkout,
-    SignUp: SignUp,
-    Receipt: Receipt
-  }
-);
 const MainStack = createStackNavigator(
   {
     Home: App,
-    Scanner: Scanner,
+    // Scanner: Scanner,
+    Scanner: ScannerNoCamera,
     Checkout: Checkout,
     SignUp: SignUp
   }
