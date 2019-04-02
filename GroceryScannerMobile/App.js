@@ -15,6 +15,9 @@ import SignUp from './CreateAccount.js';
 import Receipt from './Receipt.js';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
+const API = 'https://hn.algolia.com/api/v1/search?query=';
+const DEFAULT_QUERY = 'redux';
+
 class App extends Component<Props> {
 
   constructor(props) {
@@ -32,7 +35,7 @@ class App extends Component<Props> {
   };
 
   submit() {
-    // Get user in database
+    // Get user in database and set to userObj
     const userObj =
     {
       cards: [
@@ -42,6 +45,11 @@ class App extends Component<Props> {
       ]
     };
     this.props.user = userObj;
+
+    fetch('/Users/jacobmittelstaedt/GroceryScanner/GroceryScanner/SuperMarketApp_Backend_starter/controllers/login.js')
+      .then(response => response.json())
+      .then(data => console.warn("data: ", data));
+
     this.props.navigation.navigate('Scanner', {user: userObj});
   }
 
@@ -86,5 +94,26 @@ const AppNavigator = createStackNavigator(
     Receipt: Receipt
   }
 );
-
-export default createAppContainer(AppNavigator);
+const MainStack = createStackNavigator(
+  {
+    Home: App,
+    Scanner: Scanner,
+    Checkout: Checkout,
+    SignUp: SignUp
+  }
+);
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    MyModal: {
+      screen: Receipt,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+export default createAppContainer(RootStack);

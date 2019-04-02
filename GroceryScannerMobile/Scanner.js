@@ -10,7 +10,6 @@ import {NativeModules} from 'react-native';
 import Camera from './components/Camera.js';
 import Checkout from './Checkout.js';
 import ShoppingCart from './components/Cart.js';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 const items =
 { chocolate: {name: 'Chocolate', icon: '#', price: 2.00, quantity: 1},
@@ -43,7 +42,6 @@ export default class Scanner extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      someString: "hello",
       modalVisible: false,
       cart_data: [],
       preventCheckout: true
@@ -161,7 +159,13 @@ export default class Scanner extends Component<Props> {
     );
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.state = {
+      modalVisible: false,
+      cart_data: [],
+      preventCheckout: true
+    };
+
     this.props.navigation.setParams({
      cartData: this.state.cart_data,
      preventCheckout: this.state.preventCheckout
