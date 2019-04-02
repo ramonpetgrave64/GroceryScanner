@@ -82,8 +82,7 @@ const AppNavigator = createStackNavigator(
     Home: App,
     Scanner: Scanner,
     Checkout: Checkout,
-    SignUp: SignUp,
-    Receipt: Receipt
+    SignUp: SignUp
   }
 );
 

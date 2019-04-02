@@ -75,9 +75,9 @@ const ShoppingCart = (props) => {
         <View style={styles.container}>
             {/* Cart Heading */}
             <View style={styles.item}>
-                <Text>Item Name</Text>
-                <Text>Quantity</Text>
-                <Text>Total Price</Text>
+                <Text style={styles.item_name}>Item Name</Text>
+                <Text style={styles.item_quantity}>Quantity</Text>
+                <Text style={styles.item_total}>Total Price</Text>
             </View>
             {/* Cart Contents */}
             <FlatList
