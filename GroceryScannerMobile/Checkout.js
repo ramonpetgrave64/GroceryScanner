@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Dimensions, View, Button,  Text, FlatList, TouchableHighlight } from 'react-native';
+import { Modal, Dimensions, View, Button,  Text, FlatList, TouchableHighlight } from 'react-native';
 import stripe from 'tipsi-stripe';
 import { doPayment } from './networking/Api.js'
-
+import Receipt from './Receipt.js'
 stripe.setOptions({
   publishableKey: 'pk_test_RKmqFFP3lYqxiDYZiW4Mb3wd00KFTiJQGl',
 });
@@ -17,6 +17,7 @@ export default class Checkout extends Component<Props> {
     }, 0 ).toFixed(2);
     this.user = this.props.navigation.getParam('user', {});
     this.state = {
+      modalVisible: false,
       card: {},
       isPaymentPending: false,
       cannotConfirmPurchase: true
@@ -41,23 +42,27 @@ export default class Checkout extends Component<Props> {
     console.warn('called', { stripeTokenInfo });
     // return doPayment(cartData, stripeTokenInfo.tokenId);
     this.setState({
-      card: stripTokenInfo,
+      card: stripeTokenInfo,
       cannotConfirmPurchase: false
     });
   };
 
   confirmPurchase = () => {
-    if (this.totalAmount == -1) { return; }
-    return doPayment(this.totalAmount, this.state.card)
-      .then(() => {
-        console.warn('Payment succeeded');
-      })
-      .catch(error => {
-        console.warn('Payment failed', { error });
-      })
-      .finally(() => {
+    // if (this.totalAmount == -1) { return; }
+    // return doPayment(this.totalAmount, this.state.card)
+    //   .then(() => {
+    //     console.warn('Payment succeeded');
+    //   })
+    //   .catch(error => {
+    //     console.warn('Payment failed', { error });
+    //   })
+    //   .finally(() => {
         this.props.navigation.navigate('Receipt', this.cartData);
-      });
+      // });
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   render() {
@@ -91,10 +96,23 @@ export default class Checkout extends Component<Props> {
         <View style={styles.footer}>
           <Button
             title="Confirm Purchase"
-            onPress={this.confirmPurchase}
+            onPress={() => {this.props.navigation.navigate('MyModal');}}
             disabled={this.state.cannotConfirmPurchase}
           />
         </View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <Receipt
+            cart_data={this.state.cart_data}
+            onRequestClose={() => {
+            this.setModalVisible(false); } }
+          />
+        </Modal>
       </View>
     );
   }
