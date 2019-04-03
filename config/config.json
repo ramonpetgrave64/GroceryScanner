@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "backend_team",
-    "password": "supermarket",
-    "database": "supermarket",
-    "host": "127.0.0.1",
+    "username": "ynlaquyomvlxnb",
+    "password": "6678c674d4cc7a3d9a3166fbd3b24c3873a34c51fe387445094ad731dac499df",
+    "database": "d366c6re48nlq2",
+    "host": "ec2-54-83-61-142.compute-1.amazonaws.com",
     "dialect": "postgresql"
   },
   "test": {
