@@ -11,13 +11,11 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
    passport.authenticate('local', {session: false}, (err, user) =>{
-	if(err) return res.status(400).json({message: 'Wrong username or password', user: user});
-	req.login(user, {session: false}, (err) => {
-		if(err)res.send(err); 
-    	let payload = {id: user.username};
-    	const token = jwt.sign(payload, keys.jwtSecret);
-    	res.status(200).send({auth: true, token: token});
-    });
+	if(err) return res.status(400).json({message: 'Incorrect username or password', user: user});
+	if(!user) return res.status(400).json({message: 'Incorrect username or password', user: user});
+    let payload = {id: user.username};
+    const token = jwt.sign(payload, keys.jwtSecret);
+    res.status(200).send({auth: true, token: token});
     })(req, res);
 });
 
