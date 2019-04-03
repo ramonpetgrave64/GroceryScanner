@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     },
 
     line: {
-      height: 30,
+      // height: 30,
+      flex: 1,
       color: '#228b22',
     },
 
