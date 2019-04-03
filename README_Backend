@@ -1,0 +1,16 @@
+Backend PATH Information:
+
+For login:
+api/login
+
+For products:
+api/products
+
+For payments
+api/payments
+
+For signup
+api/signup 
+
+For barcodeID:
+api/products/[barcodeId]
