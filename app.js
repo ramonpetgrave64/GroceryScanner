@@ -13,7 +13,7 @@ const expressValidator = require('express-validator');
 const stripe = require("stripe")(keys.stripeKeySecret);
 
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 80;
 
 const app = express();
 
