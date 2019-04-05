@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Button,
   View,
-  Text
+  Text,
+  Alert,
 } from 'react-native';
 import Scanner from './Scanner.js';
 import ScannerNoCamera from './ScannerNoCamera.js';
@@ -36,22 +37,44 @@ class App extends Component<Props> {
   };
 
   submit() {
-    // Get user in database and set to userObj
-    const userObj =
-    {
-      cards: [
-        {key: "1", last4: "4242", expirationDate: "04/20"},
-        {key: "2", last4: "4242", expirationDate: "04/20"},
-        {key: "3", last4: "4242", expirationDate: "04/20"}
-      ]
+    const url = 'https://superdupermarketscanner.herokuapp.com/api/login';
+    // var data = {
+    //   username: 'test2',
+    //   password: 'test1234',
+    // };
+    var data = {
+      username: this.state.username,
+      password: this.state.password,
     };
-    this.props.user = userObj;
 
-    fetch('/Users/jacobmittelstaedt/GroceryScanner/GroceryScanner/SuperMarketApp_Backend_starter/controllers/login.js')
-      .then(response => response.json())
-      .then(data => console.warn("data: ", data));
-
-    this.props.navigation.navigate('Scanner', {user: userObj});
+    fetch(url, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then(response => {
+      if(response.auth == true) {
+        // Get user in database and set to userObj
+        const userObj =
+        {
+          cards: [
+            {key: "1", last4: "4242", expirationDate: "04/20"},
+            {key: "2", last4: "4242", expirationDate: "04/20"},
+            {key: "3", last4: "4242", expirationDate: "04/20"}
+          ],
+        };
+        userObj['token'] = response.token;
+        this.props.user = userObj;
+        this.props.navigation.navigate('Scanner', {user: userObj});
+      } else {
+        Alert.alert('Incorrect username or password.')
+      }
+    }) 
+    .catch(error => {
+      Alert.alert(JSON.stringify(response))
+    });
   }
 
   render(){
