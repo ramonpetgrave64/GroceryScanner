@@ -9,6 +9,8 @@ import {
   View,
   Text,
   Alert,
+  ActivityIndicator,
+  Keyboard
 } from 'react-native';
 import Scanner from './Scanner.js';
 import ScannerNoCamera from './ScannerNoCamera.js';
@@ -26,8 +28,8 @@ class App extends Component<Props> {
     super(props);
     this.state = {
       username: "",
-      //email: "",
-      password: ""
+      password: "",
+      spinLoadingWheel: false,
     }
   }
   static navigationOptions = ({ navigation }) => {
@@ -37,11 +39,9 @@ class App extends Component<Props> {
   };
 
   submit() {
+    this.setState({spinLoadingWheel: true});
+    Keyboard.dismiss();
     const url = 'https://superdupermarketscanner.herokuapp.com/api/login';
-    // var data = {
-    //   username: 'test2',
-    //   password: 'test1234',
-    // };
     var data = {
       username: this.state.username,
       password: this.state.password,
@@ -71,10 +71,11 @@ class App extends Component<Props> {
       } else {
         Alert.alert('Incorrect username or password.')
       }
-    }) 
+    })
     .catch(error => {
       Alert.alert(JSON.stringify(response))
-    });
+    })
+    .finally(() => this.setState({spinLoadingWheel: false}));
   }
 
   render(){
@@ -92,6 +93,15 @@ class App extends Component<Props> {
               secureTextEntry={true}
               placeholder="Password"
           />
+          {this.state.spinLoadingWheel &&
+            <View style={styles.spinner}>
+              <ActivityIndicator
+                animating={true}
+                color="#000000"
+                size="large"
+              />
+            </View>
+          }
           <Button
               onPress={this.submit.bind(this)}
               title="Submit"
@@ -109,27 +119,38 @@ class App extends Component<Props> {
   }
 }
 
-const MainStack = createStackNavigator(
+const AppNavigator = createStackNavigator(
   {
     Home: App,
-    // Scanner: Scanner,
-    Scanner: ScannerNoCamera,
+    Scanner: Scanner,
     Checkout: Checkout,
     SignUp: SignUp
   }
 );
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: MainStack,
-    },
-    MyModal: {
-      screen: Receipt,
-    },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
-);
-export default createAppContainer(RootStack);
+
+export default createAppContainer(AppNavigator);
+
+// const MainStack = createStackNavigator(
+//   {
+//     Home: App,
+//     // Scanner: Scanner,
+//     Scanner: ScannerNoCamera,
+//     Checkout: Checkout,
+//     SignUp: SignUp
+//   }
+// );
+// const RootStack = createStackNavigator(
+//   {
+//     Main: {
+//       screen: MainStack,
+//     },
+//     MyModal: {
+//       screen: Receipt,
+//     },
+//   },
+//   {
+//     mode: 'modal',
+//     headerMode: 'none',
+//   }
+// );
+// export default createAppContainer(RootStack);

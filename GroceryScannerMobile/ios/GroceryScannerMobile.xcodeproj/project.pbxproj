@@ -1441,7 +1441,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = reactjs.native.example.GroceryScannerMobile;
 				PRODUCT_NAME = GroceryScannerMobile;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1466,7 +1466,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = reactjs.native.example.GroceryScannerMobile;
 				PRODUCT_NAME = GroceryScannerMobile;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

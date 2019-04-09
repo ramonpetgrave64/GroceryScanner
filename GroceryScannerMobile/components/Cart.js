@@ -86,7 +86,7 @@ const ShoppingCart = (props) => {
                     // <TouchableHighlight onPress={() => cartItemTapHandler(item)} underlayColor='lightgrey'>
                         <View style={styles.item}>
                             {/* <Image source={{uri: '#'}}/> */}
-                            <Text style={styles.item_name}>{item.name}</Text>
+                            <Text style={styles.item_name}>{item.productName}</Text>
                             {/* Item Quatity */}
                             <View style={styles.item_quantity}>
                                 <Button title='-' color={'#ff4d4d'}  onPress={() => cartItemIncrementHandler(item, -1)} />
