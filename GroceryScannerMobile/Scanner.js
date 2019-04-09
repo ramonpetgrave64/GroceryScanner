@@ -69,42 +69,105 @@ export default class Scanner extends Component<Props> {
     };
   };
   checkoutButton = JMButton();
+
   onBarcodeDetect(event) {
-    Alert.alert(
-      'Scanned Successfully',
-      'Product scanned',
-      [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      {cancelable: false},
-    );
-    var newCartData = this.state.cart_data;
-    var itemsCopy = JSON.parse(JSON.stringify(items));
-    var item = itemsCopy[event.barcodeString];
-    const newKey = (newCartData.length + 1).toString();
-    var willAppendItem = true;
-    for (var i = 0; i < newCartData.length; i++) {
-      const grocery = newCartData[i];
-      if (grocery["name"] == item["name"]) {
-        grocery["quantity"] += 1;
-        willAppendItem = false;
-        break;
+    this.fetchProduct(event.barcodeString);
+    // Alert.alert(
+    //   'Scanned Successfully',
+    //   'Product scanned',
+    //   [
+    //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+    //   ],
+    //   {cancelable: false},
+    // );
+    // var newCartData = this.state.cart_data;
+    // var itemsCopy = JSON.parse(JSON.stringify(items));
+    // var item = itemsCopy[event.barcodeString];
+    // const newKey = (newCartData.length + 1).toString();
+    // var willAppendItem = true;
+    // for (var i = 0; i < newCartData.length; i++) {
+    //   const grocery = newCartData[i];
+    //   if (grocery["name"] == item["name"]) {
+    //     grocery["quantity"] += 1;
+    //     willAppendItem = false;
+    //     break;
+    //   }
+    // }
+    // if(willAppendItem) {
+    //   item["key"] = newKey.toString();
+    //   newCartData.push(item);
+    // }
+    // this.setState(
+    //   { cart_data: newCartData,
+    //     preventCheckout: false
+    //   }
+    // );
+    // this.props.navigation.setParams(
+    //   { cartData: this.state.cart_data,
+    //     preventCheckout: false
+    //   }
+    // );
+  }
+
+  fetchProduct(barcodeString) {
+    const url = 'https://superdupermarketscanner.herokuapp.com/api/products/'+barcodeString;
+    const user = this.props.navigation.getParam('user');
+    fetch(url, {
+      method: 'GET', // or 'PUT'
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + user.token
       }
-    }
-    if(willAppendItem) {
-      item["key"] = newKey.toString();
-      newCartData.push(item);
-    }
-    this.setState(
-      { cart_data: newCartData,
-        preventCheckout: false
-      }
-    );
-    this.props.navigation.setParams(
-      { cartData: this.state.cart_data,
-        preventCheckout: false
-      }
-    );
+    }).then(res => res.json())
+    .then(response => {
+      const scannedItem = response["Product"];
+        if(scannedItem == null) {
+          Alert.alert("Product not recognized")
+        }
+        else {
+          Alert.alert(
+            'Scanned Successfully',
+            'Product scanned',
+            [
+              {text: 'OK'},
+            ],
+            {cancelable: false},
+          );
+        }
+        var newCartData = this.state.cart_data;
+        const newKey = (newCartData.length + 1).toString();
+        var willAppendItem = true;
+        for (var i = 0; i < newCartData.length; i++) {
+          const grocery = newCartData[i];
+          if (grocery["productName"] == scannedItem["productName"]) {
+            grocery["quantity"] += 1;
+            willAppendItem = false;
+            break;
+          }
+        }
+        if(willAppendItem) {
+          const newGrocery = {
+            productName: scannedItem["productName"],
+            key: newKey.toString(),
+            quantity: 1,
+            price: +(scannedItem["price_per_unit"])
+          };
+          newCartData.push(newGrocery);
+        }
+        this.setState(
+          { cart_data: newCartData,
+            preventCheckout: false
+          }
+        );
+        this.props.navigation.setParams(
+          { cartData: this.state.cart_data,
+            preventCheckout: false
+          }
+        );
+    })
+    .catch(error => {
+      Alert.alert("An error occured when scanning");
+    });
   }
 
   state = {
@@ -135,13 +198,13 @@ export default class Scanner extends Component<Props> {
             this.setModalVisible(!this.state.modalVisible); } }
           />
         </Modal>
-        <Camera
-        style={styles.body}
-        onBarcodeDetect={this.onBarcodeDetect.bind(this)}
-        />
-        <View style={styles.image}>
+        <View style={styles.body}>
+          <Camera
+            style={styles.camera}
+            onBarcodeDetect={this.onBarcodeDetect.bind(this)}
+          />
           <Image
-            style={{width: width, height: (2*height)/3}}
+            style={[styles.image,{width: width, height: (2*height)/3}]}
             source={{uri: 'https://static.thenounproject.com/png/658616-200.png'}}
           />
         </View>
@@ -173,9 +236,14 @@ export default class Scanner extends Component<Props> {
   }
 }
 
+// <Image
+//   style={[styles.image,{width: width, height: (2*height)/3}]}
+//   source={{uri: 'https://static.thenounproject.com/png/658616-200.png'}}
+// />
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#abcdef'
   },
   header: {
@@ -190,7 +258,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#bbbbbb'
+    backgroundColor: '#bbbbbb',
+    borderWidth: 5
   },
   footer: {
     flex: 1,
@@ -199,52 +268,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     backgroundColor: '#f7f7f7',
     },
+  camera: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
   image: {
     position: 'absolute',
-    top: (height / 3) - 150,
-    left: 0,
-    width: 0,
-    height: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
-
-// cart_data:
-// [
-//    {key: '1', name: 'orange', icon: '#', price: 2.40, quantity: 11},
-//    {key: '2', name: 'apple', icon: '#', price: 2.40, quantity: 3},
-//    {key: '3', name: 'grape', icon: '#', price: 1.90, quantity: 5},
-//    {key: '4', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '5', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '6', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '7', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '8', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '9', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '10', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '11', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '12', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '13', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '14', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '15', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '16', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '17', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '18', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '19', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '20', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '21', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '22', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '23', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '24', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '25', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '26', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '27', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '28', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '29', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '30', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '31', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '32', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '33', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '34', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '35', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//    {key: '36', name: 'apple', icon: '#', price: 22.40, quantity: 3},
-//    {key: '37', name: 'sushi', icon: '#', price: 9240, quantity: 4},
-//  ]

@@ -5,7 +5,7 @@ import {Dimensions, View} from 'react-native';
 const React = require('react-native');
 const { StyleSheet } = React;
 
-var { height } = Dimensions.get('window');
+var { width,height } = Dimensions.get('window');
 var lineHeight = height / 70;
 
 const styles = StyleSheet.create({
@@ -19,6 +19,16 @@ const styles = StyleSheet.create({
       marginRight: 10,
       marginBottom: 35,
       //backgroundColor: '#a9a9a9'
+    },
+
+    spinner: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
 
     title: {
