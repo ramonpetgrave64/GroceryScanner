@@ -14,7 +14,7 @@ The backend should always contain a copy of the user's cart. Each time teh front
 #### Pushing the Shopping Cart to the backend
 To authenticate, each request will contain the `token` in the request header
 
-The front-end will wass a JSON object containing cart_data, which is an array of `item` objects.
+The front-end will wass a JSON object containing `cart_data`, which is an array of `item` objects.
 
 ```
 {
