@@ -81,7 +81,8 @@ export default class Checkout extends Component<Props> {
                 <TouchableHighlight onPress={() =>  this.chooseCardHandler(item)} underlayColor='lightgrey'>
                   <View style={styles.item}>
                   {/* <Image source={{uri: '#'}}/> */}
-                  <Text>Card ending in ...{item.last4}</Text>
+                  <Text>Card ending in ...{item.number.slice(-4)}</Text>
+                  {/* The backend should be returning an expiration date. */}
                   <Text>{item.expirationDate}</Text>
                   </View>
                 </TouchableHighlight>
