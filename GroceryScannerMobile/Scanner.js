@@ -134,6 +134,22 @@ export default class Scanner extends Component<Props> {
             {cancelable: false},
           );
         }
+
+        // Simpler code here
+        // const new_cart_data = [...this.state.cart_data]
+        // const targetItem = newCartData.filter(item => item.productName == scannedItem.productName)[0];
+        // if (targetItem) {
+        //   targetItem.quantity += 1;
+        // } else {
+        //   new_item = {
+        //     productName: scannedItem.productName,
+        //     key: (newCartData.length + 1).toString(),
+        //     quantity: 1,
+        //     price: scannedItem.price_per_unit
+        //   }
+        //   new_cart_data.push(new_item);
+        // }
+
         var newCartData = this.state.cart_data;
         const newKey = (newCartData.length + 1).toString();
         var willAppendItem = true;
