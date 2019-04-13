@@ -56,18 +56,33 @@ class App extends Component<Props> {
     }).then(res => res.json())
     .then(response => {
       if(response.auth == true) {
-        // Get user in database and set to userObj
-        const userObj =
-        {
-          cards: [
-            {key: "1", last4: "4242", expirationDate: "04/20"},
-            {key: "2", last4: "4242", expirationDate: "04/20"},
-            {key: "3", last4: "4242", expirationDate: "04/20"}
-          ],
-        };
-        userObj['token'] = response.token;
-        this.props.user = userObj;
-        this.props.navigation.navigate('Scanner', {user: userObj});
+        const userObj = {
+          token: response.token,
+          cards: [],
+          // cards: [
+            //     {key: "1", last4: "4242", expirationDate: "04/20"},
+            //     {key: "2", last4: "4242", expirationDate: "04/20"},
+            //     {key: "3", last4: "4242", expirationDate: "04/20"}
+            //   ],
+        }
+        // Get cards from the database
+        const url_credit = 'https://superdupermarketscanner.herokuapp.com/api/credit';
+        fetch(url_credit, 
+          {
+            method: 'GET',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + userObj.token
+            }
+          }
+        )
+        .then(res => res.json())
+        .then(response => {
+          userObj.cards = response;
+          this.props.user = userObj;
+          this.props.navigation.navigate('Scanner', {user: userObj});
+          console.warn(userObj);
+        })
       } else {
         Alert.alert('Incorrect username or password.')
       }
@@ -122,7 +137,7 @@ class App extends Component<Props> {
 const AppNavigator = createStackNavigator(
   {
     Home: App,
-    Scanner: Scanner,
+    Scanner: ScannerNoCamera,
     Checkout: Checkout,
     SignUp: SignUp
   }
