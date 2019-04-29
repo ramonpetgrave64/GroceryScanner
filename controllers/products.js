@@ -28,6 +28,22 @@ router.get('/:barcode', passport.authenticate('jwt', { session: false}), (req, r
       res.status(200).send(product);
   })
 });
+
+router.put('/:id', passport.authenticate('jwt', { session: false}), (req, res) => {
+ 
+    models.Products.update({
+      available: req.body.available,
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+  
+      returning: true,
+    }).then(product => {
+     res.status(200).send('Product updated');
+    }); 
+});
 /*router.get('/new', 
   passport.redirectIfNotLoggedIn('/login'),  
   (req, res) => {
