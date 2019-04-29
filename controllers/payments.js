@@ -10,7 +10,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   let amount = req.body.total;
 
   stripe.customers.create({
-    email: req.body.email,
+    email: req.user.email,
     card: req.body.cardtoken
   })
   .then(customer =>{
