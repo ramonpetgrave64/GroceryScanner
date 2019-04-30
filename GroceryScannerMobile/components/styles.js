@@ -5,20 +5,26 @@ import {Dimensions, View} from 'react-native';
 const React = require('react-native');
 const { StyleSheet } = React;
 
-var { width,height } = Dimensions.get('window');
+var { height } = Dimensions.get('window');
 var lineHeight = height / 70;
 
 const styles = StyleSheet.create({
-  //const styles = StyleSheet.create({
 
     container: {
       flex: 1,
       flexDirection: 'column',
-      marginTop: 35,
-      marginLeft: 10,
-      marginRight: 10,
+      fontFamily: 'Arial',
+      marginTop: 10,
+      marginLeft: 5,
+      marginRight: 5,
       marginBottom: 35,
-      //backgroundColor: '#a9a9a9'
+      borderWidth: 5,
+      //backgroundColor: '#696969',
+      borderColor: '#1F618D',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
     },
 
     spinner: {
@@ -38,44 +44,50 @@ const styles = StyleSheet.create({
     },
 
     line: {
-      // height: 30,
+      //height: 30,
       flex: 1,
-      color: '#228b22',
+      color: '#8b0000',
     },
 
     input: {
-      marginTop: 45,
-      marginLeft: 15,
-      width: 250,
+      marginTop: 8,
+      marginLeft: 8,
+      marginRight: 8,
+      width: 340,
       margin: 5,
-      color: '#00008b',
       fontSize: 20,
-      backgroundColor: '#eaedf2'
+      height: 35,
+      //backgroundColor: '#f1ffff',
+      backgroundColor: 'transparent',
+      //shadowColor: '#708090',
+      borderColor: '#1F618D',
+      borderWidth: 2
     },
 
     secondRow: {
       flex: 1,
       backgroundColor: '#119da4',
     },
-    image1: {
-      backgroundColor: 'white',
-      marginLeft: 20,
-      marginTop: 10,
-      marginBottom: 10,
-      opacity: 0.65,
-    },
-    image2: {
-      width: 335,
-      height: 300,
-      marginTop: 80,
-      marginLeft: 20,
-      marginBottom: 20,
-    },
+
     footer: {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'flex-end',
+      alignItems: 'flex-end'
+    },
+
+    SignBottom: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: 36,
+      color: '#808000'
+    },
+
+    frontButton: {
+      flex: 1,
+      fontSize: 35,
+      fontFamily: "arial",
+      color: '#000000'
     }
 
   });
