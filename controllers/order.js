@@ -16,6 +16,20 @@ function addSpace(numOfSpaces){
 	return spaces;
 }
 
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
+	models.Orders.findAll({
+		where:{
+			UserId: req.user.id
+		}
+	})
+	.then((orders) => {
+		res.status(200).send(orders);
+	})
+	.catch(() => {
+		res.status(500).send('Failed to get orders');
+	})
+});
+
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) =>{
 	let cartdata = req.body.cartdata;
 	let cartdataProduct = [];
