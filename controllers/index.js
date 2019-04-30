@@ -9,5 +9,6 @@ router.use('/signup', require('./signup'));
 router.use('/payments', require('./payments'));
 router.use('/products', require('./products'));
 router.use('/credit', require('./creditcard'));
+router.use('/order', require('./order'));
 
 module.exports = router;
