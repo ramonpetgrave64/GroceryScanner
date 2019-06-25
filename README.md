@@ -2,7 +2,7 @@
 
 I-Checkout is a React Native application where users can place retail products from the shelf in a software shopping cart. Features include being able to manage your item totals, view the amount you will owe at checkout, and pay for the products in a self checkout system.
 
-![Scanning Products](https://i.imgur.com/6G5SXsD.gif) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![Scanning Products](https://i.imgur.com/6G5SXsD.gifv) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![Payment Processing](https://i.imgur.com/F090oHA.gif)
 ## Motivation and Benefits
 
