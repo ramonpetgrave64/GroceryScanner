@@ -20,10 +20,10 @@ I-Checkout was developed to provide customers and store owners with the followin
 ## Tech Overview
 
 **Tools, Frameworks, and APIs**\
-React Native, Node.js, AVFoundation, Mobile Vision API, Stripe Heroku, Postman
+React Native, Node.js, AVFoundation, Mobile Vision API, Stripe, Heroku, Postman, PostgreSQL
 
 **Languages Used**\
-Javascript, CSS, Objective-C, Java, PostgreSQL
+Javascript, Objective-C, Java, SQL
 
 **Platforms Supported**\
 iOS, Android
